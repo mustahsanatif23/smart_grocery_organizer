@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CardStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_medium"
+        android:gravity="center">
+
+        <!-- Category Icon -->
+        <ImageView
+            android:id="@+id/ivCategoryIcon"
+            android:layout_width="@dimen/icon_size_xl"
+            android:layout_height="@dimen/icon_size_xl"
+            android:src="@drawable/ic_category"
+            app:tint="@color/primary"
+            android:contentDescription="Category icon" />
+
+        <!-- Category Name -->
+        <TextView
+            android:id="@+id/tvCategoryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="Fruits"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_medium"
+            android:textColor="@color/text_primary" />
+
+        <!-- Item Count -->
+        <TextView
+            android:id="@+id/tvItemCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:text="5 items"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/text_secondary" />
+
+        <!-- Expiring Soon Badge -->
+        <TextView
+            android:id="@+id/tvExpiringSoon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:background="@drawable/bg_tag_urgent"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="2 expiring"
+            android:textSize="10sp"
+            android:textColor="@color/red_700"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
+

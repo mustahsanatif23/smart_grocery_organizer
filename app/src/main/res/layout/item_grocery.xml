@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CardStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation"
+    app:strokeColor="@color/grey_200"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_medium">
+
+        <!-- Multi-selection Checkbox -->
+        <CheckBox
+            android:id="@+id/cbSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Category Indicator -->
+        <View
+            android:id="@+id/categoryIndicator"
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:background="@color/primary" />
+
+        <!-- Content -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Title Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textColor="@color/text_primary"
+                    tools:text="Milk" />
+
+                <TextView
+                    android:id="@+id/tvDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/spacing_small"
+                    android:paddingVertical="@dimen/spacing_xs"
+                    android:textSize="@dimen/text_size_small"
+                    android:background="@drawable/bg_tag_ok"
+                    android:textColor="@color/green_700"
+                    android:textStyle="bold"
+                    tools:text="5 days" />
+
+            </LinearLayout>
+
+            <!-- Metadata Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:textColor="@color/text_secondary"
+                    android:drawablePadding="@dimen/spacing_xs"
+                    tools:text="Dairy" />
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:layout_marginHorizontal="@dimen/spacing_small"
+                    android:background="@drawable/ic_category"
+                    android:backgroundTint="@color/grey_400" />
+
+                <TextView
+                    android:id="@+id/tvQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:textColor="@color/text_secondary"
+                    tools:text="1L" />
+
+            </LinearLayout>
+
+            <!-- Expiry Date Row -->
+            <TextView
+                android:id="@+id/tvExpiry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/text_secondary"
+                tools:text="Expires: 2024-01-15" />
+
+        </LinearLayout>
+
+        <!-- Star Toggle Button for Urgency -->
+        <ImageButton
+            android:id="@+id/btnStarToggle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/star_big_off"
+            android:contentDescription="Mark as urgent"
+            android:scaleType="fitCenter"
+            android:padding="8dp" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

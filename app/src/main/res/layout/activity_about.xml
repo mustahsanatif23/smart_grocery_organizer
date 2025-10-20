@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Toolbar -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary"
+            android:elevation="@dimen/toolbar_elevation"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_medium">
+
+            <!-- App Icon and Name -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_large">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_size_xl"
+                    android:layout_height="@dimen/icon_size_xl"
+                    android:src="@drawable/ic_launcher"
+                    android:contentDescription="App Icon" />
+
+                <TextView
+                    android:id="@+id/tvAppName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:text="@string/app_name"
+                    style="@style/TextHeadline" />
+
+                <TextView
+                    android:id="@+id/tvAppDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/app_description"
+                    android:textAlignment="center"
+                    style="@style/TextCaption" />
+
+            </LinearLayout>
+
+            <!-- Version Info Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Version Information"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_small" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/CardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_medium">
+
+                    <!-- Version -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Version"
+                            style="@style/TextBody" />
+
+                        <TextView
+                            android:id="@+id/tvVersionValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1.0"
+                            android:textColor="@color/text_secondary"
+                            style="@style/TextBody" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="@dimen/spacing_small"
+                        android:background="@color/grey_200" />
+
+                    <!-- Build -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Build Number"
+                            style="@style/TextBody" />
+
+                        <TextView
+                            android:id="@+id/tvBuildValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textColor="@color/text_secondary"
+                            style="@style/TextBody" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Developer Info Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Developer"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_small" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/CardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_medium">
+
+                    <!-- Developer Name -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Developed by"
+                            style="@style/TextBody" />
+
+                        <TextView
+                            android:id="@+id/tvDeveloperValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Smart Grocery Team"
+                            android:textColor="@color/text_secondary"
+                            style="@style/TextBody" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="@dimen/spacing_small"
+                        android:background="@color/grey_200" />
+
+                    <!-- Email -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Email"
+                            style="@style/TextBody" />
+
+                        <TextView
+                            android:id="@+id/tvEmailValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="support@smartgrocery.com"
+                            android:textColor="@color/text_secondary"
+                            style="@style/TextBody" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="@dimen/spacing_small"
+                        android:background="@color/grey_200" />
+
+                    <!-- License -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="License"
+                            style="@style/TextBody" />
+
+                        <TextView
+                            android:id="@+id/tvLicenseValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="MIT License"
+                            android:textColor="@color/text_secondary"
+                            style="@style/TextBody" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Actions Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Actions"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_small" />
+
+            <!-- Rate App -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardRateApp"
+                style="@style/CardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/spacing_medium">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:src="@drawable/ic_category"
+                        app:tint="@color/orange_700"
+                        android:contentDescription="Rate" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:text="Rate on Play Store"
+                        style="@style/TextBody" />
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_small"
+                        android:layout_height="@dimen/icon_size_small"
+                        android:src="@drawable/ic_back"
+                        android:rotation="180"
+                        app:tint="@color/text_secondary"
+                        android:contentDescription="Navigate" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Share App -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardShareApp"
+                style="@style/CardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/spacing_medium">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:src="@drawable/ic_category"
+                        app:tint="@color/blue_700"
+                        android:contentDescription="Share" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:text="Share with Friends"
+                        style="@style/TextBody" />
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_small"
+                        android:layout_height="@dimen/icon_size_small"
+                        android:src="@drawable/ic_back"
+                        android:rotation="180"
+                        app:tint="@color/text_secondary"
+                        android:contentDescription="Navigate" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Send Feedback -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardFeedback"
+                style="@style/CardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/spacing_medium">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:src="@drawable/ic_notification"
+                        app:tint="@color/primary"
+                        android:contentDescription="Feedback" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:text="Send Feedback"
+                        style="@style/TextBody" />
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_small"
+                        android:layout_height="@dimen/icon_size_small"
+                        android:src="@drawable/ic_back"
+                        android:rotation="180"
+                        app:tint="@color/text_secondary"
+                        android:contentDescription="Navigate" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Legal Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Legal"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_small" />
+
+            <!-- Privacy Policy -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardPrivacyPolicy"
+                style="@style/CardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/spacing_medium">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:src="@drawable/ic_category"
+                        app:tint="@color/text_secondary"
+                        android:contentDescription="Privacy" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:text="Privacy Policy"
+                        style="@style/TextBody" />
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_small"
+                        android:layout_height="@dimen/icon_size_small"
+                        android:src="@drawable/ic_back"
+                        android:rotation="180"
+                        app:tint="@color/text_secondary"
+                        android:contentDescription="Navigate" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Terms of Service -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardTermsOfService"
+                style="@style/CardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/spacing_medium">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:src="@drawable/ic_category"
+                        app:tint="@color/text_secondary"
+                        android:contentDescription="Terms" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:text="Terms of Service"
+                        style="@style/TextBody" />
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_small"
+                        android:layout_height="@dimen/icon_size_small"
+                        android:src="@drawable/ic_back"
+                        android:rotation="180"
+                        app:tint="@color/text_secondary"
+                        android:contentDescription="Navigate" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Open Source Licenses -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardOpenSource"
+                style="@style/CardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/spacing_medium">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:src="@drawable/ic_category"
+                        app:tint="@color/text_secondary"
+                        android:contentDescription="Licenses" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:text="Open Source Licenses"
+                        style="@style/TextBody" />
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_small"
+                        android:layout_height="@dimen/icon_size_small"
+                        android:src="@drawable/ic_back"
+                        android:rotation="180"
+                        app:tint="@color/text_secondary"
+                        android:contentDescription="Navigate" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Action Buttons -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVisitWebsite"
+                style="@style/ButtonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="Visit Website" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnContactSupport"
+                style="@style/ButtonOutlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_large"
+                android:text="Contact Support" />
+
+            <!-- Copyright -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="© 2025 Smart Grocery Organizer\nAll rights reserved"
+                android:textAlignment="center"
+                android:layout_marginBottom="@dimen/spacing_large"
+                style="@style/TextCaption" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
+

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors - Adjusted for Dark Mode -->
+    <color name="primary">#4CAF50</color>
+    <color name="primary_dark">#2E7D32</color>
+    <color name="primary_light">#81C784</color>
+    <color name="accent">#FFB74D</color>
+
+    <!-- Green Shades - Dark Mode -->
+    <color name="green_50">#1B5E20</color>
+    <color name="green_100">#2E7D32</color>
+    <color name="green_200">#388E3C</color>
+    <color name="green_500">#4CAF50</color>
+    <color name="green_600">#66BB6A</color>
+    <color name="green_700">#81C784</color>
+    <color name="green_800">#A5D6A7</color>
+
+    <!-- Red Shades - Dark Mode -->
+    <color name="red_50">#B71C1C</color>
+    <color name="red_100">#C62828</color>
+    <color name="red_600">#EF5350</color>
+    <color name="red_700">#E57373</color>
+
+    <!-- Orange Shades - Dark Mode -->
+    <color name="orange_50">#E65100</color>
+    <color name="orange_500">#FF9800</color>
+    <color name="orange_700">#FFB74D</color>
+
+    <!-- Blue Shades - Dark Mode -->
+    <color name="blue_50">#0D47A1</color>
+    <color name="blue_500">#2196F3</color>
+    <color name="blue_700">#64B5F6</color>
+
+    <!-- Neutral Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="grey_50">#303030</color>
+    <color name="grey_100">#424242</color>
+    <color name="grey_200">#616161</color>
+    <color name="grey_300">#757575</color>
+    <color name="grey_400">#9E9E9E</color>
+    <color name="grey_500">#BDBDBD</color>
+    <color name="grey_700">#E0E0E0</color>
+    <color name="grey_800">#EEEEEE</color>
+    <color name="grey_900">#F5F5F5</color>
+
+    <!-- Background Colors - Dark Mode -->
+    <color name="background">#121212</color>
+    <color name="surface">#1E1E1E</color>
+    <color name="card_background">#2C2C2C</color>
+
+    <!-- Text Colors - Dark Mode -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B0B0B0</color>
+    <color name="text_hint">#808080</color>
+</resources>
+

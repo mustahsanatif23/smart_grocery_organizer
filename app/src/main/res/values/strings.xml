@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Smart Grocery Organizer</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_recipes">Recipes</string>
+    <string name="nav_analytics">Analytics</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_categories">Categories</string>
+    <string name="nav_shopping_list">Shopping List</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_about">About</string>
+
+    <!-- Actions -->
+    <string name="action_add">Add</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_search">Search</string>
+    <string name="action_filter">Filter</string>
+    <string name="action_sort">Sort</string>
+    <string name="action_refresh">Refresh</string>
+
+    <!-- Main Screen -->
+    <string name="your_items">Your Items</string>
+    <string name="items_count">%d items</string>
+    <string name="expiring_soon">%d items expiring soon!</string>
+    <string name="no_items">No grocery items yet</string>
+    <string name="add_first_item">Add your first grocery item</string>
+
+    <!-- Categories -->
+    <string name="category_dairy">Dairy</string>
+    <string name="category_vegetables">Vegetables</string>
+    <string name="category_fruits">Fruits</string>
+    <string name="category_meat">Meat</string>
+    <string name="category_bakery">Bakery</string>
+    <string name="category_beverages">Beverages</string>
+    <string name="category_snacks">Snacks</string>
+    <string name="category_other">Other</string>
+
+    <!-- Category Array for Dropdown -->
+    <string-array name="grocery_categories">
+        <item>Fruits</item>
+        <item>Vegetables</item>
+        <item>Dairy</item>
+        <item>Meat</item>
+        <item>Grains</item>
+        <item>Bakery</item>
+        <item>Beverages</item>
+        <item>Snacks</item>
+        <item>Frozen Foods</item>
+        <item>Canned Goods</item>
+        <item>Condiments</item>
+        <item>Other</item>
+    </string-array>
+
+    <!-- Details -->
+    <string name="item_details">Item Details</string>
+    <string name="quantity">Quantity</string>
+    <string name="category">Category</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="days_left">Days Left</string>
+    <string name="days_left_format">%d days</string>
+    <string name="expires_format">Expires: %s</string>
+    <string name="urgent">Urgent</string>
+
+    <!-- Messages -->
+    <string name="data_refreshed">Data refreshed</string>
+    <string name="already_on_home">You\'re already on the Home screen</string>
+    <string name="coming_soon">Feature coming soon!</string>
+    <string name="item_added">Item added successfully</string>
+    <string name="item_updated">Item updated successfully</string>
+    <string name="item_deleted">Item deleted successfully</string>
+    <string name="sorted_by">Sorted by: %s</string>
+
+    <!-- Drawer -->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <!-- Description -->
+    <string name="app_description">Organize your groceries smartly and reduce food waste</string>
+
+    <!-- Settings Page -->
+    <string name="theme_updated">Theme updated</string>
+    <string name="notifications_enabled">Notifications enabled</string>
+    <string name="notifications_disabled">Notifications disabled</string>
+    <string name="auto_delete_enabled">Auto-delete enabled</string>
+    <string name="auto_delete_disabled">Auto-delete disabled</string>
+    <string name="select_notification_time">Select Notification Time</string>
+    <string name="notification_time_updated">Notification time updated</string>
+    <string name="expiry_warning_days">Expiry Warning Days</string>
+    <string name="expiry_warning_updated">Expiry warning updated</string>
+    <string name="edit_username">Edit Username</string>
+    <string name="edit_email">Edit Email</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="settings_saved">Settings saved</string>
+    <string name="clear_data">Clear Data</string>
+    <string name="clear_data_confirmation">Are you sure you want to clear all grocery data? This action cannot be undone.</string>
+    <string name="clear">Clear</string>
+    <string name="reset_settings">Reset Settings</string>
+    <string name="reset_settings_confirmation">Are you sure you want to reset all settings to default?</string>
+    <string name="reset">Reset</string>
+    <string name="data_cleared">All data cleared</string>
+    <string name="settings_reset">Settings reset to default</string>
+
+    <!-- About Page -->
+    <string name="play_store_not_available">Play Store not available</string>
+    <string name="share_app_message">Check out Smart Grocery Organizer - Organize your groceries and reduce food waste!</string>
+    <string name="share_via">Share via</string>
+    <string name="browser_not_available">Browser not available</string>
+    <string name="email_client_not_available">Email client not available</string>
+    <string name="open_source_licenses">Open Source Licenses</string>
+
+    <!-- Categories Page -->
+    <string name="categories_count">%d categories</string>
+</resources>
