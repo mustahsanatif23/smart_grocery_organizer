@@ -1,5 +1,6 @@
 package com.example.smartgroceryorganizer
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -28,11 +29,11 @@ class CategoriesActivity : AppCompatActivity() {
     private fun applySavedTheme() {
         val sharedPreferences = getSharedPreferences(
             SettingsActivity.PREFS_NAME,
-            android.content.Context.MODE_PRIVATE
+            MODE_PRIVATE
         )
         val themeMode = sharedPreferences.getInt(
             SettingsActivity.KEY_THEME_MODE,
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            AppCompatDelegate.MODE_NIGHT_NO
         )
         AppCompatDelegate.setDefaultNightMode(themeMode)
     }
@@ -66,15 +67,22 @@ class CategoriesActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateCategoryData(items: List<GroceryItem>) {
-        // Get categories from string resources
-        val categories = resources.getStringArray(R.array.grocery_categories)
+    private fun getExpiryWarningDays(): Int {
+        val sharedPreferences = getSharedPreferences(
+            "SmartGroceryOrganizerPrefs",
+            Context.MODE_PRIVATE
+        )
+        return sharedPreferences.getInt("expiry_warning_days", 3)
+    }
 
-        // Create category data with item counts
+    private fun updateCategoryData(items: List<GroceryItem>) {
+        val categories = resources.getStringArray(R.array.grocery_categories)
+        val expiryWarningDays = getExpiryWarningDays()
+
         val categoryDataList = categories.map { category ->
             val itemCount = items.count { it.category.equals(category, ignoreCase = true) }
             val expiringSoonCount = items.count {
-                it.category.equals(category, ignoreCase = true) && (it.daysLeft <= 2 || it.urgent)
+                it.category.equals(category, ignoreCase = true) && it.daysLeft <= expiryWarningDays
             }
             CategoryData(
                 name = category,
@@ -82,11 +90,9 @@ class CategoriesActivity : AppCompatActivity() {
                 expiringSoonCount = expiringSoonCount,
                 icon = getCategoryIcon(category)
             )
-        }.filter { it.itemCount > 0 } // Only show categories with items
+        }.filter { it.itemCount > 0 }
 
         adapter.submitList(categoryDataList)
-
-        // Update total category count
         binding.tvCategoryCount.text = getString(R.string.categories_count, categoryDataList.size)
     }
 

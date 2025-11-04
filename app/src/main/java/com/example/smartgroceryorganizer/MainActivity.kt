@@ -17,14 +17,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.smartgroceryorganizer.databinding.ActivityMainBinding
-import com.google.android.material.textfield.TextInputEditText
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: GroceryAdapter
     private val viewModel: GroceryViewModel by viewModels()
 
-    // Notification permission launcher
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -37,9 +35,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Apply saved theme before calling super.onCreate()
         applySavedTheme()
-
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -52,19 +48,30 @@ class MainActivity : AppCompatActivity() {
         setupSwipeRefresh()
         setupSearch()
         observeViewModel()
-
-        // Initialize notification system
+        setupBackPressHandler()
         requestNotificationPermission()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.bottomNavigation.selectedItemId = R.id.nav_bottom_home
+        viewModel.refreshData()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        binding.bottomNavigation.selectedItemId = R.id.nav_bottom_home
     }
 
     private fun applySavedTheme() {
         val sharedPreferences = getSharedPreferences(
             SettingsActivity.PREFS_NAME,
-            android.content.Context.MODE_PRIVATE
+            MODE_PRIVATE
         )
         val themeMode = sharedPreferences.getInt(
             SettingsActivity.KEY_THEME_MODE,
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            AppCompatDelegate.MODE_NIGHT_NO
         )
         AppCompatDelegate.setDefaultNightMode(themeMode)
     }
@@ -83,27 +90,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         } else {
-            // For Android versions below 13, no runtime permission needed
             initializeNotifications()
         }
     }
 
     private fun initializeNotifications() {
-        // Create notification channel
         NotificationHelper.createNotificationChannel(this)
-
-        // Schedule daily notifications at 12 PM
         NotificationScheduler.scheduleExpiryNotifications(this)
     }
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
-
-        binding.toolbar.setNavigationOnClickListener {
-            binding.drawerLayout.openDrawer(GravityCompat.START)
-        }
     }
 
     private fun setupNavigationDrawer() {
@@ -148,25 +146,48 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_bottom_home -> {
-                    Toast.makeText(this, getString(R.string.already_on_home), Toast.LENGTH_SHORT).show()
-                    true
-                }
+                R.id.nav_bottom_home -> true
                 R.id.nav_bottom_recipes -> {
-                    startActivity(Intent(this, RecipesActivity::class.java))
+                    navigateToActivity(RecipesActivity::class.java, "right")
                     true
                 }
                 R.id.nav_bottom_analytics -> {
-                    startActivity(Intent(this, AnalyticsActivity::class.java))
+                    navigateToActivity(AnalyticsActivity::class.java, "right")
                     true
                 }
                 R.id.nav_bottom_settings -> {
-                    startActivity(Intent(this, SettingsActivity::class.java))
+                    navigateToActivity(SettingsActivity::class.java, "right")
                     true
                 }
                 else -> false
             }
         }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun navigateToActivity(activityClass: Class<*>, direction: String = "right") {
+        val intent = Intent(this, activityClass).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        }
+        startActivity(intent)
+
+        when (direction) {
+            "right" -> overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            "left" -> overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+            else -> overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        }
+    }
+
+    private fun setupBackPressHandler() {
+        onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    finish()
+                }
+            }
+        })
     }
 
     private fun setupRecyclerView() {
@@ -199,36 +220,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSearch() {
-        binding.btnSearch.setOnClickListener {
-            showSearchDialog()
-        }
-
-        // Setup sorting button
         binding.btnSort?.setOnClickListener {
             showSortDialog()
         }
-    }
-
-    private fun showSearchDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_search, null)
-        val searchInput = dialogView.findViewById<TextInputEditText>(R.id.etSearch)
-
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.action_search))
-            .setView(dialogView)
-            .setPositiveButton(getString(R.string.action_search)) { _, _ ->
-                val query = searchInput.text.toString()
-                if (query.isNotEmpty()) {
-                    viewModel.searchItems(query)
-                    Toast.makeText(this, "Searching for: $query", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton("Clear") { _, _ ->
-                viewModel.clearSearch()
-                Toast.makeText(this, "Search cleared", Toast.LENGTH_SHORT).show()
-            }
-            .setNeutralButton("Cancel", null)
-            .show()
     }
 
     private fun showSortDialog() {
@@ -250,35 +244,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        // Observe grocery items
         viewModel.groceryItems.observe(this) { items ->
             adapter.submitList(items)
         }
 
-        // Observe current sort option
         viewModel.currentSortOption.observe(this) { sortOption ->
             binding.tvCurrentSort?.text = getString(R.string.sorted_by, sortOption.displayName)
         }
 
-        // Observe item count
         viewModel.itemCount.observe(this) { count ->
             binding.tvItemCount.text = count.toString()
         }
 
-        // Observe expiring soon count
         viewModel.expiringSoonCount.observe(this) { count ->
             binding.tvExpiringSoon.text = count.toString()
-
-            // Update alert visibility and text
-            if (count > 0) {
-                binding.cardAlert.visibility = View.VISIBLE
-                binding.tvAlert.text = getString(R.string.expiring_soon, count)
-            } else {
-                binding.cardAlert.visibility = View.GONE
-            }
+            binding.cardAlert.visibility = View.GONE
         }
 
-        // Observe empty state
         viewModel.isEmpty.observe(this) { isEmpty ->
             if (isEmpty) {
                 binding.emptyState.visibility = View.VISIBLE
@@ -287,11 +269,6 @@ class MainActivity : AppCompatActivity() {
                 binding.emptyState.visibility = View.GONE
                 binding.recyclerView.visibility = View.VISIBLE
             }
-        }
-
-        // Observe loading state
-        viewModel.isLoading.observe(this) { isLoading ->
-            binding.swipeRefresh.isRefreshing = isLoading
         }
     }
 
@@ -307,12 +284,5 @@ class MainActivity : AppCompatActivity() {
         }
         startActivity(intent)
     }
-
-    override fun onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
 }
+

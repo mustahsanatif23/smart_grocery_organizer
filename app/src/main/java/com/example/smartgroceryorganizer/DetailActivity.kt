@@ -12,6 +12,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private val viewModel: GroceryViewModel by viewModels()
     private var itemId: Int = 0
+    private var itemUrgent: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,16 +21,14 @@ class DetailActivity : AppCompatActivity() {
 
         binding.toolbar.setNavigationOnClickListener { finish() }
 
-        // Get item data from intent
         itemId = intent.getIntExtra("item_id", 0)
         val itemName = intent.getStringExtra("item_name") ?: "-"
         val itemCategory = intent.getStringExtra("item_category") ?: "-"
         val itemQuantity = intent.getStringExtra("item_quantity") ?: "-"
         val itemExpiry = intent.getStringExtra("item_expiry") ?: "-"
         val itemDays = intent.getIntExtra("item_days", 0)
-        val itemUrgent = intent.getBooleanExtra("item_urgent", false)
+        itemUrgent = intent.getBooleanExtra("item_urgent", false)
 
-        // Display item details
         binding.tvName.text = itemName
         binding.tvCategory.text = itemCategory
         binding.tvQuantity.text = itemQuantity
@@ -40,12 +39,10 @@ class DetailActivity : AppCompatActivity() {
             else resources.getColor(R.color.green_600, null)
         )
 
-        // Setup edit button
         binding.btnEdit.setOnClickListener {
             editItem()
         }
 
-        // Setup delete button
         binding.btnDelete.setOnClickListener {
             showDeleteConfirmationDialog()
         }
@@ -58,6 +55,7 @@ class DetailActivity : AppCompatActivity() {
             putExtra("item_category", binding.tvCategory.text.toString())
             putExtra("item_quantity", binding.tvQuantity.text.toString())
             putExtra("item_expiry", binding.tvExpiry.text.toString())
+            putExtra("item_urgent", itemUrgent)
         }
         startActivity(intent)
         finish()

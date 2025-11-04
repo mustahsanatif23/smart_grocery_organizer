@@ -1,5 +1,6 @@
 package com.example.smartgroceryorganizer
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -23,7 +24,6 @@ class CategoryItemsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         categoryName = intent.getStringExtra("category_name") ?: "Unknown"
-        val itemCount = intent.getIntExtra("item_count", 0)
 
         setupToolbar()
         setupRecyclerView()
@@ -33,11 +33,11 @@ class CategoryItemsActivity : AppCompatActivity() {
     private fun applySavedTheme() {
         val sharedPreferences = getSharedPreferences(
             SettingsActivity.PREFS_NAME,
-            android.content.Context.MODE_PRIVATE
+            MODE_PRIVATE
         )
         val themeMode = sharedPreferences.getInt(
             SettingsActivity.KEY_THEME_MODE,
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            AppCompatDelegate.MODE_NIGHT_NO
         )
         AppCompatDelegate.setDefaultNightMode(themeMode)
     }
@@ -62,6 +62,14 @@ class CategoryItemsActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
     }
 
+    private fun getExpiryWarningDays(): Int {
+        val sharedPreferences = getSharedPreferences(
+            "SmartGroceryOrganizerPrefs",
+            Context.MODE_PRIVATE
+        )
+        return sharedPreferences.getInt("expiry_warning_days", 3)
+    }
+
     private fun observeViewModel() {
         viewModel.groceryItems.observe(this, Observer { allItems ->
             // Filter items by category
@@ -78,15 +86,16 @@ class CategoryItemsActivity : AppCompatActivity() {
                 adapter.submitList(categoryItems)
             }
 
-            // Update stats
+            // Update stats using user's expiry warning setting
             binding.tvTotalItems.text = categoryItems.size.toString()
-            val expiringSoon = categoryItems.count { it.daysLeft <= 2 || it.urgent }
+            val expiryWarningDays = getExpiryWarningDays()
+            val expiringSoon = categoryItems.count { it.daysLeft <= expiryWarningDays }
             binding.tvExpiringSoon.text = expiringSoon.toString()
 
             // Show/hide alert card
             if (expiringSoon > 0) {
                 binding.cardAlert.visibility = View.VISIBLE
-                binding.tvAlert.text = "$expiringSoon items in $categoryName expiring soon!"
+                binding.tvAlert.text = "$expiringSoon items in $categoryName expiring soon"
             } else {
                 binding.cardAlert.visibility = View.GONE
             }

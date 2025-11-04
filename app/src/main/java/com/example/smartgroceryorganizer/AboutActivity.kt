@@ -29,7 +29,7 @@ class AboutActivity : AppCompatActivity() {
         )
         val themeMode = sharedPreferences.getInt(
             SettingsActivity.KEY_THEME_MODE,
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            AppCompatDelegate.MODE_NIGHT_NO
         )
         AppCompatDelegate.setDefaultNightMode(themeMode)
     }
@@ -42,55 +42,48 @@ class AboutActivity : AppCompatActivity() {
     }
 
     private fun setupAppInfo() {
-        // Set app version from BuildConfig
         try {
             val packageInfo = packageManager.getPackageInfo(packageName, 0)
             binding.tvVersionValue.text = packageInfo.versionName
-            binding.tvBuildValue.text = packageInfo.versionCode.toString()
+            binding.tvBuildValue.text = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                packageInfo.longVersionCode.toString()
+            } else {
+                @Suppress("DEPRECATION")
+                packageInfo.versionCode.toString()
+            }
         } catch (e: Exception) {
             binding.tvVersionValue.text = "1.0"
             binding.tvBuildValue.text = "1"
         }
 
-        // Set app name and description
         binding.tvAppName.text = getString(R.string.app_name)
         binding.tvAppDescription.text = getString(R.string.app_description)
-
-        // Set developer info
         binding.tvDeveloperValue.text = "Mustahsan Atif"
         binding.tvEmailValue.text = "support@smartgrocery.com"
-
-        // Set license info
         binding.tvLicenseValue.text = "MIT License"
     }
 
     private fun setupListeners() {
-        // Rate app
         binding.cardRateApp.setOnClickListener {
             rateApp()
         }
 
-        // Share app
         binding.cardShareApp.setOnClickListener {
             shareApp()
         }
 
-        // Privacy Policy
         binding.cardPrivacyPolicy.setOnClickListener {
             openPrivacyPolicy()
         }
 
-        // Terms of Service
         binding.cardTermsOfService.setOnClickListener {
             openTermsOfService()
         }
 
-        // Send Feedback
         binding.cardFeedback.setOnClickListener {
             sendFeedback()
         }
 
-        // Open Source Licenses
         binding.cardOpenSource.setOnClickListener {
             openSourceLicenses()
         }

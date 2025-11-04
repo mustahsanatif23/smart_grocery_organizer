@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
@@ -9,12 +11,15 @@
         android:icon="@drawable/ic_launcher"
         android:label="Smart Grocery Organizer"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/Theme.SmartGroceryOrganizer">
         <activity android:name=".DetailActivity"
             android:exported="false" />
         <activity android:name=".AnalyticsActivity"
             android:exported="false" />
         <activity android:name=".RecipesActivity"
+            android:exported="false" />
+        <activity android:name=".RecipeDetailsActivity"
             android:exported="false" />
         <activity android:name=".AddEditActivity"
             android:exported="false" />

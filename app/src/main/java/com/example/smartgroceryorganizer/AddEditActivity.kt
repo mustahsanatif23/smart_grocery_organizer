@@ -16,29 +16,25 @@ class AddEditActivity : AppCompatActivity() {
     private val viewModel: GroceryViewModel by viewModels()
     private var editItemId: Int = 0
     private var isEditMode: Boolean = false
+    private var existingUrgentStatus: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Check if we're in edit mode
         editItemId = intent.getIntExtra("item_id", 0)
         isEditMode = editItemId != 0
 
-        // Update toolbar title based on mode
         binding.toolbar.title = if (isEditMode) "Edit Item" else "Add New Item"
         binding.toolbar.setNavigationOnClickListener { finish() }
 
-        // Setup category spinner
         setupCategorySpinner()
 
-        // Load existing item data if in edit mode
         if (isEditMode) {
             loadItemData()
         }
 
-        // Setup DatePicker for expiry date
         setupDatePicker()
 
         binding.btnSave.setOnClickListener {
@@ -51,20 +47,13 @@ class AddEditActivity : AppCompatActivity() {
     }
 
     private fun setupCategorySpinner() {
-        // Get the categories from resources
         val categories = resources.getStringArray(R.array.grocery_categories)
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
             categories
         )
-
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        // Apply the adapter to the spinner
         binding.spinnerCategory.adapter = adapter
     }
 
@@ -72,7 +61,6 @@ class AddEditActivity : AppCompatActivity() {
         binding.etExpiry.setOnClickListener {
             val calendar = Calendar.getInstance()
 
-            // If there's already a date in the field, parse it and set as default
             val currentDate = binding.etExpiry.text.toString()
             if (currentDate.isNotEmpty()) {
                 try {
@@ -82,7 +70,7 @@ class AddEditActivity : AppCompatActivity() {
                         calendar.time = date
                     }
                 } catch (e: Exception) {
-                    // If parsing fails, use current date
+                    // Use current date if parsing fails
                 }
             }
 
@@ -93,12 +81,11 @@ class AddEditActivity : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(
                 this,
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    // Format the selected date as YYYY-MM-DD
                     val selectedDate = String.format(
                         Locale.getDefault(),
                         "%04d-%02d-%02d",
                         selectedYear,
-                        selectedMonth + 1, // Month is 0-based
+                        selectedMonth + 1,
                         selectedDay
                     )
                     binding.etExpiry.setText(selectedDate)
@@ -108,20 +95,17 @@ class AddEditActivity : AppCompatActivity() {
                 day
             )
 
-            // Set minimum date to today to prevent selecting past dates
             datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
-
             datePickerDialog.show()
         }
     }
 
     private fun loadItemData() {
-        // Populate fields with existing data
         binding.etName.setText(intent.getStringExtra("item_name") ?: "")
         binding.etQuantity.setText(intent.getStringExtra("item_quantity") ?: "")
         binding.etExpiry.setText(intent.getStringExtra("item_expiry") ?: "")
+        existingUrgentStatus = intent.getBooleanExtra("item_urgent", false)
 
-        // Set category spinner selection
         val category = intent.getStringExtra("item_category") ?: ""
         val categories = resources.getStringArray(R.array.grocery_categories)
         val categoryIndex = categories.indexOf(category)
@@ -131,13 +115,11 @@ class AddEditActivity : AppCompatActivity() {
     }
 
     private fun saveItem() {
-        // Get input values
         val name = binding.etName.text.toString().trim()
         val category = binding.spinnerCategory.selectedItem.toString()
         val quantity = binding.etQuantity.text.toString().trim()
         val expiry = binding.etExpiry.text.toString().trim()
 
-        // Validate inputs
         if (name.isEmpty()) {
             binding.etName.error = "Name is required"
             binding.etName.requestFocus()
@@ -156,12 +138,10 @@ class AddEditActivity : AppCompatActivity() {
             return
         }
 
-        // Calculate days left and urgent status
         val daysLeft = calculateDaysLeft(expiry)
-        val urgent = daysLeft <= 3 && daysLeft >= 0
+        val urgent = if (isEditMode) existingUrgentStatus else false
 
         if (isEditMode) {
-            // Update existing item
             val updatedItem = GroceryItem(
                 id = editItemId,
                 name = name,
@@ -174,7 +154,6 @@ class AddEditActivity : AppCompatActivity() {
             viewModel.updateItem(updatedItem)
             Toast.makeText(this, "Item updated successfully!", Toast.LENGTH_SHORT).show()
         } else {
-            // Create new grocery item
             val newItem = GroceryItem(
                 name = name,
                 category = category,
@@ -187,18 +166,32 @@ class AddEditActivity : AppCompatActivity() {
             Toast.makeText(this, "Item added successfully!", Toast.LENGTH_SHORT).show()
         }
 
-        // Close activity and return to MainActivity
         finish()
     }
 
+    /** Calculate days remaining until expiry, normalized to midnight for accuracy */
+    private fun calculateDaysLeft(expiryDate: String): Int {
+    /** Calculate days remaining until expiry, normalized to midnight for accuracy */
     private fun calculateDaysLeft(expiryDate: String): Int {
         return try {
             val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val expiry = sdf.parse(expiryDate)
-            val today = Calendar.getInstance().time
+            val parsedDate = sdf.parse(expiryDate)
 
-            if (expiry != null) {
-                val diff = expiry.time - today.time
+            if (parsedDate != null) {
+                val todayCal = Calendar.getInstance()
+                todayCal.set(Calendar.HOUR_OF_DAY, 0)
+                todayCal.set(Calendar.MINUTE, 0)
+                todayCal.set(Calendar.SECOND, 0)
+                todayCal.set(Calendar.MILLISECOND, 0)
+
+                val expiryCal = Calendar.getInstance()
+                expiryCal.time = parsedDate
+                expiryCal.set(Calendar.HOUR_OF_DAY, 0)
+                expiryCal.set(Calendar.MINUTE, 0)
+                expiryCal.set(Calendar.SECOND, 0)
+                expiryCal.set(Calendar.MILLISECOND, 0)
+
+                val diff = expiryCal.timeInMillis - todayCal.timeInMillis
                 TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS).toInt()
             } else {
                 0

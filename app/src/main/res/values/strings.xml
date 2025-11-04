@@ -1,118 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Smart Grocery Organizer</string>
+    <string name="app_description">Organize your groceries, track expiration dates, and reduce food waste.</string>
 
     <!-- Navigation -->
     <string name="nav_home">Home</string>
+    <string name="nav_categories">Categories</string>
     <string name="nav_recipes">Recipes</string>
     <string name="nav_analytics">Analytics</string>
     <string name="nav_settings">Settings</string>
-    <string name="nav_categories">Categories</string>
-    <string name="nav_shopping_list">Shopping List</string>
-    <string name="nav_profile">Profile</string>
     <string name="nav_about">About</string>
-
-    <!-- Actions -->
-    <string name="action_add">Add</string>
-    <string name="action_edit">Edit</string>
-    <string name="action_delete">Delete</string>
-    <string name="action_search">Search</string>
-    <string name="action_filter">Filter</string>
-    <string name="action_sort">Sort</string>
-    <string name="action_refresh">Refresh</string>
-
-    <!-- Main Screen -->
-    <string name="your_items">Your Items</string>
-    <string name="items_count">%d items</string>
-    <string name="expiring_soon">%d items expiring soon!</string>
-    <string name="no_items">No grocery items yet</string>
-    <string name="add_first_item">Add your first grocery item</string>
-
-    <!-- Categories -->
-    <string name="category_dairy">Dairy</string>
-    <string name="category_vegetables">Vegetables</string>
-    <string name="category_fruits">Fruits</string>
-    <string name="category_meat">Meat</string>
-    <string name="category_bakery">Bakery</string>
-    <string name="category_beverages">Beverages</string>
-    <string name="category_snacks">Snacks</string>
-    <string name="category_other">Other</string>
-
-    <!-- Category Array for Dropdown -->
-    <string-array name="grocery_categories">
-        <item>Fruits</item>
-        <item>Vegetables</item>
-        <item>Dairy</item>
-        <item>Meat</item>
-        <item>Grains</item>
-        <item>Bakery</item>
-        <item>Beverages</item>
-        <item>Snacks</item>
-        <item>Frozen Foods</item>
-        <item>Canned Goods</item>
-        <item>Condiments</item>
-        <item>Other</item>
-    </string-array>
-
-    <!-- Details -->
-    <string name="item_details">Item Details</string>
-    <string name="quantity">Quantity</string>
-    <string name="category">Category</string>
-    <string name="expiry_date">Expiry Date</string>
-    <string name="days_left">Days Left</string>
-    <string name="days_left_format">%d days</string>
-    <string name="expires_format">Expires: %s</string>
-    <string name="urgent">Urgent</string>
-
-    <!-- Messages -->
-    <string name="data_refreshed">Data refreshed</string>
-    <string name="already_on_home">You\'re already on the Home screen</string>
-    <string name="coming_soon">Feature coming soon!</string>
-    <string name="item_added">Item added successfully</string>
-    <string name="item_updated">Item updated successfully</string>
-    <string name="item_deleted">Item deleted successfully</string>
-    <string name="sorted_by">Sorted by: %s</string>
-
-    <!-- Drawer -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
-    <!-- Description -->
-    <string name="app_description">Organize your groceries smartly and reduce food waste</string>
+    <!-- Main Activity -->
+    <string name="already_on_home">You are already on the home screen</string>
+    <string name="data_refreshed">Data refreshed</string>
+    <string name="sorted_by">Sorted by: %1$s</string>
+    <string name="expiring_soon">%1$d items expiring soon!</string>
+    <string name="your_items">Your Items</string>
+    <string name="no_items">No Items Yet</string>
+    <string name="add_first_item">Add your first grocery item to get started</string>
+    <string name="total_items">Total Items</string>
+    <string name="expiring_soon_label">Expiring Soon</string>
+    <string name="alert">Alert</string>
+    <string name="sort_items">Sort items</string>
+    <string name="default_sort">Sorted by: Default (Days Left)</string>
+    <string name="zero">0</string>
 
-    <!-- Settings Page -->
-    <string name="theme_updated">Theme updated</string>
-    <string name="notifications_enabled">Notifications enabled</string>
-    <string name="notifications_disabled">Notifications disabled</string>
-    <string name="auto_delete_enabled">Auto-delete enabled</string>
-    <string name="auto_delete_disabled">Auto-delete disabled</string>
-    <string name="select_notification_time">Select Notification Time</string>
-    <string name="notification_time_updated">Notification time updated</string>
-    <string name="expiry_warning_days">Expiry Warning Days</string>
-    <string name="expiry_warning_updated">Expiry warning updated</string>
-    <string name="edit_username">Edit Username</string>
-    <string name="edit_email">Edit Email</string>
+    <!-- Actions -->
+    <string name="action_search">Search</string>
+    <string name="action_sort">Sort</string>
+    <string name="action_add">Add Item</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-    <string name="ok">OK</string>
-    <string name="settings_saved">Settings saved</string>
-    <string name="clear_data">Clear Data</string>
-    <string name="clear_data_confirmation">Are you sure you want to clear all grocery data? This action cannot be undone.</string>
     <string name="clear">Clear</string>
-    <string name="reset_settings">Reset Settings</string>
-    <string name="reset_settings_confirmation">Are you sure you want to reset all settings to default?</string>
     <string name="reset">Reset</string>
-    <string name="data_cleared">All data cleared</string>
-    <string name="settings_reset">Settings reset to default</string>
+    <string name="ok">OK</string>
 
-    <!-- About Page -->
-    <string name="play_store_not_available">Play Store not available</string>
-    <string name="share_app_message">Check out Smart Grocery Organizer - Organize your groceries and reduce food waste!</string>
+    <!-- Add/Edit Activity -->
+    <string name="add_item">Add Item</string>
+    <string name="edit_item">Edit Item</string>
+    <string name="item_name">Item Name</string>
+    <string name="category">Category</string>
+    <string name="quantity">Quantity</string>
+    <string name="expiry_date">Expiry Date</string>
+
+    <!-- Detail Activity -->
+    <string name="item_details">Item Details</string>
+
+    <!-- Categories -->
+    <string name="categories_count">%1$d categories</string>
+    <string name="category_items_expiring">%1$d items in %2$s expiring soon!</string>
+
+    <!-- Formats -->
+    <string name="expires_format">Expires: %1$s</string>
+    <string name="days_left_format">%1$d days</string>
+    <string name="days_format">%1$d days</string>
+
+    <!-- Settings -->
+    <string name="notifications_enabled">Notifications enabled</string>
+    <string name="notifications_disabled">Notifications disabled</string>
+    <string name="auto_delete_enabled">Auto-delete expired items enabled</string>
+    <string name="auto_delete_disabled">Auto-delete expired items disabled</string>
+    <string name="settings_saved">Settings saved</string>
+    <string name="settings_reset">Settings reset to defaults</string>
+    <string name="data_cleared">All data has been cleared</string>
+    <string name="not_set">Not set</string>
+    <string name="edit_username">Edit Username</string>
+    <string name="edit_email">Edit Email</string>
+    <string name="enter_valid_email">Please enter a valid email address</string>
+    <string name="clear_data">Clear All Data</string>
+    <string name="clear_data_confirmation">This will permanently delete all grocery items. This action cannot be undone. Are you sure?</string>
+    <string name="reset_settings">Reset Settings</string>
+    <string name="reset_settings_confirmation">This will reset all settings to their default values. Are you sure?</string>
+    <string name="select_notification_time">Select Notification Time</string>
+    <string name="notification_time">Notification Time</string>
+    <string name="notification_time_updated">Notification time updated</string>
+    <string name="default_notification_time">12:00 PM</string>
+    <string name="expiry_warning_days">Expiry Warning Days</string>
+    <string name="expiry_warning">Expiry Warning</string>
+    <string name="expiry_warning_updated">Expiry warning setting updated</string>
+    <string name="one_day">1 day</string>
+    <string name="three_days">3 days</string>
+
+    <!-- Plurals -->
+    <plurals name="days_count">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+
+    <!-- About -->
     <string name="share_via">Share via</string>
-    <string name="browser_not_available">Browser not available</string>
-    <string name="email_client_not_available">Email client not available</string>
+    <string name="share_app_message">Check out Smart Grocery Organizer - organize your groceries and reduce food waste! https://smartgrocery.com</string>
+    <string name="play_store_not_available">Play Store not available</string>
+    <string name="browser_not_available">No browser available to open link</string>
+    <string name="email_client_not_available">No email client available</string>
     <string name="open_source_licenses">Open Source Licenses</string>
 
-    <!-- Categories Page -->
-    <string name="categories_count">%d categories</string>
+    <!-- Recipe Details -->
+    <string name="summary">Summary</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="instructions">Instructions</string>
+    <string name="servings_format">%1$d servings</string>
+    <string name="time_format">%1$d min</string>
+    <string name="likes_format">%1$d likes</string>
+    <string name="error_loading_recipe">Failed to load recipe details</string>
+    <string name="retry">Retry</string>
+    <string name="no_instructions_available">No cooking instructions are available for this recipe.</string>
 </resources>
+

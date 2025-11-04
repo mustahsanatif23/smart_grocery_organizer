@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit
 object NotificationScheduler {
     private const val WORK_NAME = "expiry_notification_work"
 
+    /** Schedule daily notifications at 12 PM */
     fun scheduleExpiryNotifications(context: Context) {
-        // Calculate initial delay to schedule notification at 12 PM (midday)
         val currentTime = Calendar.getInstance()
         val targetTime = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 12)
@@ -19,7 +19,6 @@ object NotificationScheduler {
             set(Calendar.MILLISECOND, 0)
         }
 
-        // If it's already past 12 PM today, schedule for 12 PM tomorrow
         if (currentTime.after(targetTime)) {
             targetTime.add(Calendar.DAY_OF_MONTH, 1)
         }
@@ -28,24 +27,21 @@ object NotificationScheduler {
 
         Log.d("NotificationScheduler", "Scheduling notification in ${initialDelay / 1000 / 60} minutes")
 
-        // Create constraints - only run when device is not in battery saver mode
         val constraints = Constraints.Builder()
-            .setRequiresBatteryNotLow(false) // Allow even on low battery
+            .setRequiresBatteryNotLow(false)
             .build()
 
-        // Create periodic work request - runs daily at 12 PM
         val workRequest = PeriodicWorkRequestBuilder<ExpiryNotificationWorker>(
             24, TimeUnit.HOURS,
-            15, TimeUnit.MINUTES // Flex interval for optimization
+            15, TimeUnit.MINUTES
         )
             .setConstraints(constraints)
             .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
             .build()
 
-        // Enqueue the work with unique name to avoid duplicates
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             WORK_NAME,
-            ExistingPeriodicWorkPolicy.REPLACE,
+            ExistingPeriodicWorkPolicy.UPDATE,
             workRequest
         )
 

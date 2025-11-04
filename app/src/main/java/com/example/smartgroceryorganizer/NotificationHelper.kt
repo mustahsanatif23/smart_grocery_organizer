@@ -32,7 +32,6 @@ object NotificationHelper {
     fun sendExpiringItemsNotification(context: Context, expiringItems: List<GroceryItem>) {
         if (expiringItems.isEmpty()) return
 
-        // Create intent to open MainActivity when notification is clicked
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -43,7 +42,6 @@ object NotificationHelper {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        // Build notification message
         val title = when (expiringItems.size) {
             1 -> "1 item expiring soon!"
             else -> "${expiringItems.size} items expiring soon!"
@@ -51,7 +49,6 @@ object NotificationHelper {
 
         val message = buildNotificationMessage(expiringItems)
 
-        // Use app icon if custom notification icon doesn't exist
         val iconResId = try {
             R.drawable.ic_notification
         } catch (e: Exception) {
@@ -72,7 +69,6 @@ object NotificationHelper {
         try {
             notificationManager.notify(NOTIFICATION_ID, notification)
         } catch (e: SecurityException) {
-            // Handle case where notification permission is not granted
             e.printStackTrace()
         }
     }

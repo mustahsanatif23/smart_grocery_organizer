@@ -22,28 +22,16 @@ class GroceryRepository(private val groceryDao: GroceryDao) {
         groceryDao.deleteItemById(itemId)
     }
 
-    fun getItemsByCategory(category: String): LiveData<List<GroceryItem>> {
-        return groceryDao.getItemsByCategory(category)
-    }
-
-    fun searchItems(query: String): LiveData<List<GroceryItem>> {
-        return groceryDao.searchItems(query)
-    }
-
     suspend fun getItemById(itemId: Int): GroceryItem? {
         return try {
             groceryDao.getItemById(itemId)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
     }
 
     suspend fun getExpiringSoonItems(): List<GroceryItem> {
         return groceryDao.getExpiringSoonItems()
-    }
-
-    suspend fun getExpiredItems(): List<GroceryItem> {
-        return groceryDao.getExpiredItems()
     }
 
     suspend fun deleteExpiredItems(): Int {

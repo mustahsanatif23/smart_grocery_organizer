@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import androidx.work.ListenableWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -13,25 +12,39 @@ class ExpiryNotificationWorker(
     workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
 
-    override suspend fun doWork(): ListenableWorker.Result {
-        return withContext(Dispatchers.IO) {
-            try {
+    override suspend fun doWork(): Result {
+        return try {
+            withContext(Dispatchers.IO) {
+                val context = applicationContext
+                val sharedPreferences = context.getSharedPreferences("SmartGroceryOrganizerPrefs", Context.MODE_PRIVATE)
+                val notificationsEnabled = sharedPreferences.getBoolean("notifications_enabled", true)
+                val autoDeleteEnabled = sharedPreferences.getBoolean("auto_delete_expired", true)
+                val expiryWarningDays = sharedPreferences.getInt("expiry_warning_days", 3)
+
+                if (!notificationsEnabled) {
+                    Log.d("ExpiryNotificationWorker", "Notifications disabled by user")
+                    return@withContext Result.success()
+                }
+
                 val database = GroceryDatabase.getDatabase(applicationContext)
                 val repository = GroceryRepository(database.groceryDao())
 
-                // First, delete expired items (daysLeft < 0)
-                val deletedCount = repository.deleteExpiredItems()
-                if (deletedCount > 0) {
-                    Log.d("ExpiryNotificationWorker", "Auto-deleted $deletedCount expired items")
+                if (autoDeleteEnabled) {
+                    val deletedCount = repository.deleteExpiredItems()
+                    if (deletedCount > 0) {
+                        Log.d("ExpiryNotificationWorker", "Auto-deleted $deletedCount expired items")
+                    }
                 }
 
-                // Then, get items expiring soon (0 <= daysLeft <= 3)
-                val expiringItems = repository.getExpiringSoonItems()
+                /** Query all items and filter by dynamic expiry warning (avoids hardcoded query limits) */
+                val allItems = database.groceryDao().getAllItemsList()
+                val expiringItems = allItems.filter {
+                    it.daysLeft in 0..expiryWarningDays
+                }
 
                 if (expiringItems.isNotEmpty()) {
-                    Log.d("ExpiryNotificationWorker", "Found ${expiringItems.size} expiring items")
+                    Log.d("ExpiryNotificationWorker", "Found ${expiringItems.size} items expiring within $expiryWarningDays days")
 
-                    // Send notification
                     withContext(Dispatchers.Main) {
                         NotificationHelper.sendExpiringItemsNotification(
                             applicationContext,
@@ -41,13 +54,11 @@ class ExpiryNotificationWorker(
                 } else {
                     Log.d("ExpiryNotificationWorker", "No expiring items found")
                 }
-
-                ListenableWorker.Result.success()
-            } catch (e: Exception) {
-                Log.e("ExpiryNotificationWorker", "Error in worker", e)
-                ListenableWorker.Result.failure()
             }
+            Result.success()
+        } catch (e: Exception) {
+            Log.e("ExpiryNotificationWorker", "Error in worker", e)
+            Result.failure()
         }
     }
 }
-

@@ -34,7 +34,6 @@ class CategoryAdapter(
             binding.tvItemCount.text = "${category.itemCount} items"
             binding.ivCategoryIcon.setImageResource(category.icon)
 
-            // Show expiring soon badge if applicable
             if (category.expiringSoonCount > 0) {
                 binding.tvExpiringSoon.visibility = android.view.View.VISIBLE
                 binding.tvExpiringSoon.text = "${category.expiringSoonCount} expiring"
