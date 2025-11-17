@@ -12,7 +12,7 @@
         android:layout_width="@dimen/icon_size_xl"
         android:layout_height="@dimen/icon_size_xl"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_logo" />
 
     <TextView
         android:layout_width="match_parent"
