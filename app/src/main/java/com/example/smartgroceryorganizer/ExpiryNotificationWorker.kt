@@ -30,7 +30,7 @@ class ExpiryNotificationWorker(
                 val repository = GroceryRepository(database.groceryDao())
 
                 if (autoDeleteEnabled) {
-                    val deletedCount = repository.deleteExpiredItems()
+                    val deletedCount = repository.deleteExpiredItemsWithTracking(context)
                     if (deletedCount > 0) {
                         Log.d("ExpiryNotificationWorker", "Auto-deleted $deletedCount expired items")
                     }

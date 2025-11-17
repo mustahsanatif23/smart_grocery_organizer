@@ -134,7 +134,7 @@ class SettingsActivity : AppCompatActivity() {
         val notificationHour = sharedPreferences.getInt("notification_hour", 12)
         binding.tvNotificationTime.text = String.format(Locale.getDefault(), "%02d:00", notificationHour)
 
-        val autoDeleteEnabled = sharedPreferences.getBoolean(KEY_AUTO_DELETE_EXPIRED, false)
+        val autoDeleteEnabled = sharedPreferences.getBoolean(KEY_AUTO_DELETE_EXPIRED, true)
         binding.switchAutoDelete.isChecked = autoDeleteEnabled
 
         val expiryWarningDays = sharedPreferences.getInt("expiry_warning_days", 3)

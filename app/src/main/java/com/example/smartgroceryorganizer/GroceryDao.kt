@@ -6,11 +6,14 @@ import androidx.room.*
 @Dao
 interface GroceryDao {
 
-    @Query("SELECT * FROM grocery_items ORDER BY daysLeft ASC")
+    @Query("SELECT * FROM grocery_items WHERE daysLeft >= 0 ORDER BY daysLeft ASC")
     fun getAllItems(): LiveData<List<GroceryItem>>
 
     @Query("SELECT * FROM grocery_items ORDER BY daysLeft ASC")
     suspend fun getAllItemsList(): List<GroceryItem>
+
+    @Query("SELECT * FROM grocery_items WHERE daysLeft >= 0 ORDER BY daysLeft ASC")
+    suspend fun getNonExpiredItemsList(): List<GroceryItem>
 
     @Query("SELECT * FROM grocery_items WHERE id = :itemId")
     suspend fun getItemById(itemId: Int): GroceryItem?

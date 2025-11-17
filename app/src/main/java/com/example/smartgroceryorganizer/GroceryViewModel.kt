@@ -18,6 +18,9 @@ class GroceryViewModel(application: Application) : AndroidViewModel(application)
     private val _currentSortOption = MutableLiveData(SortOption.EXPIRY_EARLIEST)
     val currentSortOption: LiveData<SortOption> = _currentSortOption
 
+    private val _searchQuery = MutableLiveData<String>("")
+    val searchQuery: LiveData<String> = _searchQuery
+
     private val _itemCount = MutableLiveData<Int>()
     val itemCount: LiveData<Int> = _itemCount
 
@@ -35,8 +38,18 @@ class GroceryViewModel(application: Application) : AndroidViewModel(application)
 
     /** Sorted grocery items based on current sort option */
     val groceryItems: LiveData<List<GroceryItem>> = _currentSortOption.switchMap { sortOption ->
-        allItemsFromDb.map { items ->
-            sortItems(items, sortOption)
+        _searchQuery.switchMap { query ->
+            allItemsFromDb.map { items ->
+                val filteredItems = if (query.isNullOrBlank()) {
+                    items
+                } else {
+                    items.filter {
+                        it.name.contains(query, ignoreCase = true) ||
+                        it.category.contains(query, ignoreCase = true)
+                    }
+                }
+                sortItems(filteredItems, sortOption)
+            }
         }
     }.also { liveData ->
         liveData.observeForever { items ->
@@ -58,6 +71,15 @@ class GroceryViewModel(application: Application) : AndroidViewModel(application)
 
     fun setSortOption(sortOption: SortOption) {
         _currentSortOption.value = sortOption
+    }
+
+    // Search functionality
+    fun searchItems(query: String) {
+        _searchQuery.value = query
+    }
+
+    fun clearSearch() {
+        _searchQuery.value = ""
     }
 
     fun toggleItemUrgency(item: GroceryItem) = viewModelScope.launch {
@@ -83,9 +105,26 @@ class GroceryViewModel(application: Application) : AndroidViewModel(application)
 
     /** Recalculates counts when settings change (e.g., expiry warning days) */
     fun refreshData() {
+        checkAndDeleteExpiredItems()
         val currentItems = groceryItems.value
         if (currentItems != null) {
             updateCounts(currentItems)
+        }
+    }
+
+    /** Check for expired items and delete them if auto-delete is enabled */
+    fun checkAndDeleteExpiredItems() = viewModelScope.launch {
+        val sharedPreferences = getApplication<Application>().getSharedPreferences(
+            "SmartGroceryOrganizerPrefs",
+            Context.MODE_PRIVATE
+        )
+        val autoDeleteEnabled = sharedPreferences.getBoolean("auto_delete_expired", true)
+
+        if (autoDeleteEnabled) {
+            val deletedCount = repository.deleteExpiredItemsWithTracking(getApplication())
+            if (deletedCount > 0) {
+                android.util.Log.d("GroceryViewModel", "Auto-deleted $deletedCount expired items")
+            }
         }
     }
 

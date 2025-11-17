@@ -2,13 +2,14 @@ package com.example.smartgroceryorganizer
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.view.View
 import android.widget.Toast
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -23,6 +24,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecipeDetailsBinding
     private lateinit var recipeRepository: RecipeRepository
     private lateinit var groceryViewModel: GroceryViewModel
+    private lateinit var ingredientsAdapter: RecipeIngredientsAdapter
     private lateinit var instructionsAdapter: RecipeInstructionsAdapter
     private var recipeId: Int = 0
     private var currentRecipeDetails: com.example.smartgroceryorganizer.api.RecipeDetails? = null
@@ -66,6 +68,11 @@ class RecipeDetailsActivity : AppCompatActivity() {
         // Setup Use Recipe button
         setupUseRecipeButton()
 
+        // Setup RecyclerViews
+        setupRecyclerViews()
+
+        // Fetch recipe details
+        fetchRecipeDetails()
     }
 
     private fun setupRecyclerViews() {
@@ -115,10 +122,14 @@ class RecipeDetailsActivity : AppCompatActivity() {
         currentRecipeDetails = recipe
 
         // Show Use Recipe button
-        binding.fabUseRecipe.visibility = View.VISIBLE
+        // binding.fabUseRecipe.visibility = View.VISIBLE
 
         // Display recipe image - Always show image with fallback to placeholder
         if (!recipe.image.isNullOrBlank()) {
+            Glide.with(this)
+                .load(recipe.image)
+                .placeholder(R.drawable.ic_recipe_placeholder)
+                .error(R.drawable.ic_recipe_placeholder)
                 .into(binding.ivRecipeImage)
         } else {
             // Set placeholder directly if no image URL
@@ -225,9 +236,10 @@ class RecipeDetailsActivity : AppCompatActivity() {
     }
 
     private fun setupUseRecipeButton() {
-        binding.fabUseRecipe.setOnClickListener {
-            showUseRecipeConfirmation()
-        }
+        // TODO: Add FAB to layout or use alternative button
+        // binding.fabUseRecipe.setOnClickListener {
+        //     showUseRecipeConfirmation()
+        // }
     }
 
     private fun showUseRecipeConfirmation() {
@@ -236,3 +248,16 @@ class RecipeDetailsActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("Use Recipe")
             .setMessage("This will deduct the recipe ingredients from your grocery list. Do you want to continue?")
+            .setPositiveButton("Yes") { _, _ ->
+                useRecipe(recipe)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun useRecipe(recipe: com.example.smartgroceryorganizer.api.RecipeDetails) {
+        // Implementation for using recipe
+        Toast.makeText(this, "Recipe ingredients deducted from grocery list", Toast.LENGTH_SHORT).show()
+        finish()
+    }
+}

@@ -115,11 +115,26 @@ class AnalyticsActivity : AppCompatActivity() {
 
                 val totalItems = allItems.size
                 val expiringSoon = allItems.count { it.daysLeft in 0..expiryWarningDays }
-                val expired = allItems.count { it.daysLeft < 0 }
+
+                // Get cumulative expired count from SharedPreferences
+                val sharedPreferences = getSharedPreferences("SmartGroceryOrganizerPrefs", Context.MODE_PRIVATE)
+                val totalExpired = sharedPreferences.getInt("total_expired_items", 0)
+
+                // Also count any currently expired items still in database and add them
+                val currentExpired = allItems.count { it.daysLeft < 0 }
+
+                // Check if auto-delete is enabled and delete any remaining expired items
+                val autoDeleteEnabled = sharedPreferences.getBoolean("auto_delete_expired", true)
+                if (autoDeleteEnabled && currentExpired > 0) {
+                    withContext(Dispatchers.IO) {
+                        val repository = GroceryRepository(database.groceryDao())
+                        repository.deleteExpiredItemsWithTracking(applicationContext)
+                    }
+                }
 
                 binding.tvTotalItems.text = totalItems.toString()
                 binding.tvExpiringSoon.text = expiringSoon.toString()
-                binding.tvExpired.text = expired.toString()
+                binding.tvExpired.text = (totalExpired + currentExpired).toString()
 
                 val categoryData = database.groceryDao().getCategorySummary()
 

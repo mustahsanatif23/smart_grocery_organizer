@@ -50,6 +50,9 @@ class MainActivity : AppCompatActivity() {
         observeViewModel()
         setupBackPressHandler()
         requestNotificationPermission()
+
+        // Check and delete expired items when app starts
+        viewModel.checkAndDeleteExpiredItems()
     }
 
     override fun onResume() {
@@ -223,6 +226,34 @@ class MainActivity : AppCompatActivity() {
         binding.btnSort?.setOnClickListener {
             showSortDialog()
         }
+
+        binding.btnSearch?.setOnClickListener {
+            showSearchDialog()
+        }
+    }
+
+    private fun showSearchDialog() {
+        val searchEditText = android.widget.EditText(this).apply {
+            hint = "Search items..."
+            setPadding(50, 30, 50, 30)
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Search Items")
+            .setView(searchEditText)
+            .setPositiveButton("Search") { _, _ ->
+                val query = searchEditText.text.toString()
+                if (query.isNotEmpty()) {
+                    viewModel.searchItems(query)
+                    Toast.makeText(this@MainActivity, "Searching for: $query", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Clear") { _, _ ->
+                viewModel.clearSearch()
+                Toast.makeText(this@MainActivity, "Search cleared", Toast.LENGTH_SHORT).show()
+            }
+            .setNeutralButton("Cancel", null)
+            .show()
     }
 
     private fun showSortDialog() {

@@ -171,8 +171,6 @@ class AddEditActivity : AppCompatActivity() {
 
     /** Calculate days remaining until expiry, normalized to midnight for accuracy */
     private fun calculateDaysLeft(expiryDate: String): Int {
-    /** Calculate days remaining until expiry, normalized to midnight for accuracy */
-    private fun calculateDaysLeft(expiryDate: String): Int {
         return try {
             val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val parsedDate = sdf.parse(expiryDate)
